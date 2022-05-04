@@ -14,7 +14,7 @@ plugins {
 }
 
 group = "org.jetbrains.kotlinx"
-version = "0.7.5-SNAPSHOT"
+version = "0.7.5-VZO1"
 
 buildscript {
     dependencies {
@@ -54,9 +54,9 @@ if (hasProperty("releaseVersion")) {
     version = properties["releaseVersion"] as String
 }
 
-val publishingUser = System.getenv("PUBLISHING_USER")
-val publishingPassword = System.getenv("PUBLISHING_PASSWORD")
-val publishingUrl = System.getenv("PUBLISHING_URL")
+val publishingUser = project.findProperty("artifactoryUsername")?.toString() ?: System.getenv("ARTIFACTORY_USERNAME")
+val publishingPassword = project.findProperty("artifactoryPassword")?.toString() ?: System.getenv("ARTIFACTORY_PASSWORD")
+val publishingUrl = uri("https://artifactory.vizio.com/artifactory/smartcast-sdk-local")
 
 publishing {
     publications {
@@ -139,6 +139,8 @@ kotlin {
 
     mingwX64()
     linuxX64()
+    linuxArm32Hfp()
+    linuxArm64()
     iosX64()
     iosArm64()
     iosArm32()
@@ -211,6 +213,8 @@ kotlin {
         val nativeTargets = listOf(
             "mingwX64",
             "linuxX64",
+            "linuxArm32Hfp",
+            "linuxArm64",
             "iosX64",
             "iosArm64",
             "iosArm32",
